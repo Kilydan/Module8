@@ -1,56 +1,59 @@
 CXXFLAGS=-Wall -pedantic -ggdb -O0 -std=c++11 -Iproduct
 LDFLAGS=-lgtest -lgmock -lgmock_main -lpthread
 
-CONSOLESELECTORSOURCES=$(wildcard AllNeeded/*.cpp) $(wildcard SystemController/*.cpp) $(Comminucation.cpp)
-CONSOLESELECTORHEADERS=$(wildcard AllNeeded/*.h) $(wildcard SystemController/*.h)
-CONSOLESELECTOROBJECTS=$(SOURCES:.cpp=.o)
-CONSOLESELECTORTARGET=ConsoleSelector
+#Server application
+SERVERSOURCES=$(wildcard src/server/*.cpp) $(PCServer.cpp)
+SERVERHEADERS=$(wildcard src/server/*.h)
+SERVEROBJECTS=$(SOURCES:.cpp=.o)
+SERVERTARGET=Server
 
-REMOTECONTROLLERSOURCES=$(wildcard AllNeeded/*.cpp) $(wildcard RemoteController/*.cpp) $(Comminucation.cpp)
-REMOTECONTROLLERHEADERS=$(wildcard AllNeeded/*.h) $(wildcard RemoteController/*.h)
-REMOTECONTROLLEROBJECTS=$(SOURCES:.cpp=.o)
-REMOTECONTROLLERTARGET=RemoteApplication
+#Client application
+CLIENTSOURCES=$(wildcard src/client/*.cpp) $(HDDClient.cpp)
+CLIENTHEADERS=$(wildcard src/client/*.h)
+CLIENTOBJECTS=$(SOURCES:.cpp=.o)
+CLIENTTARGET=Client
 	
-TEST=test_$(CONSOLESELECTORTARGET) test_$(REMOTECONTROLLERTARGET)
+TEST=test_$(SERVERTARGET) test_$(CLIENTTARGET)
 
-TEST_SOURCES=$(filter-out RemoteController/RemoteMain.cpp, $(REMOTECONTROLLERSOURCES)) \
-	$(filter-out SystemController/SystemMain.cpp, $(REMOTECONTROLLERSOURCES)) \
+TEST_SOURCES=$(filter-out src/server/ServerMain.cpp, $(SERVERSOURCES)) \
+	$(filter-out src/client/ClientMain.cpp, $(CLIENTSOURCES)) \
 	$(wildcard test/*.cpp)
 
-TEST_HEADERS=$(CONSOLESELECTORHEADERS) $(REMOTECONTROLLERHEADERS) \
+TEST_HEADERS=$(SERVERHEADERS) $(CLIENTHEADERS) \
 			 $(wildcard test/*.h)
 
 CXX=g++
 
 .PHONY: all clean test
 
-all: $(REMOTECONTROLLERTARGET) $(CONSOLESELECTORTARGET)
+all: $(SERVERTARGET) $(CLIENTTARGET)
 
-$(REMOTECONTROLLERTARGET): $(REMOTECONTROLLEROBJECTS) Makefile
-	@$(CXX) $(CXXFLAGS) $(REMOTECONTROLLERSOURCES) -o $@
-	@echo $(REMOTECONTROLLERTARGET) is made
+$(SERVERTARGET): $(SERVEROBJECTS) Makefile
+	@$(CXX) $(CXXFLAGS) $(SERVERSOURCES) -o $@
+	@echo $(SERVERTARGET) is made
 
-$(CONSOLESELECTORTARGET): $(CONSOLESELECTOROBJECTS) Makefile
-	@$(CXX) $(CXXFLAGS) $(CONSOLESELECTORSOURCES) -o $@
-	@echo $(CONSOLESELECTORTARGET) is made
+$(CLIENTTARGET): $(CLIENTOBJECTS) Makefile
+	@$(CXX) $(CXXFLAGS) $(CLIENTSOURCES) -o $@
+	@echo $(CLIENTTARGET) is made
 
 
 $(TEST): $(TEST_SOURCES) $(TEST_HEADERS) Makefile
 	@$(CXX) $(CXXFLAGS) -Itest $(TEST_SOURCES) -o $@ $(LDFLAGS)
 
-installConsoleSelector: $(CONSOLESELECTORTARGET)
-	scp $(CONSOLESELECTORTARGET) root@10.0.0.42:/bin
+#for installing it on the RPI
+installServer: $(SERVERTARGET)
+	scp $(SERVERTARGET) root@10.0.0.42:/bin
 
-installRemoteController: $(REMOTECONTROLLERTARGET)
-	scp $(REMOTECONTROLLERTARGET) root@10.0.0.42:/bin
+instalClient: $(CLIENTTARGET)
+	scp $(CLIENTTARGET) root@10.0.0.42:/bin
 
 
 
 clean:
-	@rm -f $(CONSOLESELECTOROBJECTS) 
-	@rm -f $(CONSOLESELECTORTARGET) 
-	@rm -f $(REMOTECONTROLLEROBJECTS)
-	@rm -f $(REMOTECONTROLLERTARGET)
+	@rm -f $(SERVEROBJECTS) 
+	@rm -f $(SERVERTARGET) 
+	@rm -f $(CLIENTOBJECTS)
+	@rm -f $(CLIENTTARGET)
 	@rm -f $(TEST)
 	@echo  cleaned
 
