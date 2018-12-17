@@ -25,12 +25,14 @@ static void showMenu( void )
 
 static void Connecter ( int &socketFd )
 {
+	/*
 	if(connected)
 	{
 		std::cout << "already connected";
 	}
 	else
 	{
+		*/
 		socketFd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 		if (socketFd == -1)
@@ -62,7 +64,7 @@ static void Connecter ( int &socketFd )
 	            exit(EXIT_FAILURE);
 	        }
 	    }
-	}
+	//}
 }
 
 static void Disconnect ( int &socketFd )
@@ -90,6 +92,7 @@ static void Messager ( int &socketFd )
 		std::cout << "Welcome to the messager, type exit to leave \n";
 		while(!exit)
 		{
+			Connecter( socketFd );	
 			std::cout << "Message: ";
 			std::getline(std::cin, message);
 			std::cout << "your message was: " << message << std::endl;

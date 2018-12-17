@@ -71,7 +71,7 @@ int main(void)
                     close(listenFd);    
                     exit(EXIT_FAILURE);
                 }
-                while(true){
+                //while(true){
                     const int BufferSize = 100;
                     char buffer[BufferSize];
                     std::string ack = "ACK";
@@ -86,8 +86,9 @@ int main(void)
                     {
                         //close(communicationFd);
                     }
-                }
+                //}
                 //close(communicationFd);
+                
                 if (shutdown(communicationFd, SHUT_RDWR) < 0)
                 {
                     perror("shutdown failed");
