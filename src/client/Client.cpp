@@ -94,10 +94,10 @@ static void Messager ( int &socketFd )
 		std::cout << "Welcome to the messager, type exit to leave \n";
 		while(!exit)
 		{
-			Connecter( socketFd );	
 			std::cout << "Message: ";
 			std::getline(std::cin, message);
 			std::cout << "your message was: " << message << std::endl;
+			Connecter( socketFd );	
 			if(message == "exit")
 			{
 				exit = true;
