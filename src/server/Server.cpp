@@ -61,10 +61,10 @@ int main(void)
         }
         else // found activity, find out what kind
         {
-            std::cout << nrSockets;
             if (FD_ISSET(listenFd, &readFds))
             {
                 int communicationFd = accept(listenFd, NULL, NULL);
+                std::cout << communicationFd;
                 if (communicationFd < 0)
                 {
                     perror("accept failed");
@@ -87,7 +87,7 @@ int main(void)
                         //close(communicationFd);
                     }
                 //}
-                //close(communicationFd);
+                //close(listenFd);
                 
                 if (shutdown(communicationFd, SHUT_RDWR) < 0)
                 {
@@ -96,11 +96,10 @@ int main(void)
                     close(listenFd);
                     exit(EXIT_FAILURE);
                 }
+                close(communicationFd);
             }
         }
     }
-    
-
     close(listenFd);
     return EXIT_SUCCESS;
 }

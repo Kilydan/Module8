@@ -2,15 +2,15 @@ CXXFLAGS=-Wall -pedantic -ggdb -O0 -std=c++11 -Iproduct
 LDFLAGS=-lgtest -lgmock -lgmock_main -lpthread
 
 #Server application
-SERVERSOURCES=$(wildcard src/server/*.cpp) $(PCServer.cpp)
+SERVERSOURCES=$(wildcard src/server/*.cpp)
 SERVERHEADERS=$(wildcard src/server/*.h)
-SERVEROBJECTS=$(SOURCES:.cpp=.o)
+SERVEROBJECTS=$(SERVERSOURCES:.cpp=.o)
 SERVERTARGET=Server
 
 #Client application
-CLIENTSOURCES=$(wildcard src/client/*.cpp) $(HDDClient.cpp)
+CLIENTSOURCES=$(wildcard src/client/*.cpp)
 CLIENTHEADERS=$(wildcard src/client/*.h)
-CLIENTOBJECTS=$(SOURCES:.cpp=.o)
+CLIENTOBJECTS=$(CLIENTSOURCES:.cpp=.o)
 CLIENTTARGET=Client
 	
 TEST=test_$(SERVERTARGET) test_$(CLIENTTARGET)
@@ -24,7 +24,7 @@ TEST_HEADERS=$(SERVERHEADERS) $(CLIENTHEADERS) \
 
 CXX=g++
 
-.PHONY: all clean test
+.PHONY: clean
 
 all: $(SERVERTARGET) $(CLIENTTARGET)
 
