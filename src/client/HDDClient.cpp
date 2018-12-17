@@ -23,7 +23,7 @@ static void showMenu( void )
     std::cout << ("Choice : ");
 }
 
-static void ConnectToPC ( int &socketFd )
+static void Connecter ( int &socketFd )
 {
 	if(connected)
 	{
@@ -65,7 +65,7 @@ static void ConnectToPC ( int &socketFd )
 	}
 }
 
-static void disconnect ( int &socketFd )
+static void Disconnect ( int &socketFd )
 {
     if (shutdown(socketFd, SHUT_RDWR) < 0)
     {
@@ -77,7 +77,7 @@ static void disconnect ( int &socketFd )
     connected = false;
 }
 
-static void messager ( int &socketFd )
+static void Messager ( int &socketFd )
 {
 	if(!connected)
 	{
@@ -124,7 +124,7 @@ static void messager ( int &socketFd )
 
 int main(void)
 {
-	ConnectToPC( socketFd );
+
     bool quit = false;
     while(!quit)
     {
@@ -137,15 +137,15 @@ int main(void)
         {
     	case '1' :
             // Connect to Server
-    		//connecter( socketFd );
+    		Connecter( socketFd );
             break;
     	case '2' :
             // Disconnect from server
-    		disconnect( socketFd );
+    		Disconnect( socketFd );
             break;
     	case '3' :
             // Send message
-            messager( socketFd );
+            Messager( socketFd );
             break;
     	case '4' :
             // Exit
