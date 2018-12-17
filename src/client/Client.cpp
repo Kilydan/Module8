@@ -2,6 +2,7 @@
 
 bool connected = false;
 int socketFd;
+std::string UN = "";
 
 
 static void loginMenu( void )
@@ -45,8 +46,13 @@ int main(void)
 			{
 				case '1':
 					//login
-					login = ClientSocket::TryLogin(socketFd);
-					std::cout << login;
+					std::cout << "Username: ";
+        			std::getline(std::cin, UN);
+					login = ClientSocket::TryLogin(socketFd, UN);
+					if(!login)
+					{
+						std::cout << "Wrong Username";
+					}
 					break;
 				case '2':
 					//exit
@@ -70,7 +76,6 @@ int main(void)
 			case '1' :
 				// Logout
 				login = false;
-				//ClientSocket::Disconnect(socketFd);
 				break;
 			case '2' :
 				// get list
@@ -99,6 +104,6 @@ int main(void)
 		}
 	}
 
-	ClientSocket::Disconnect(socketFd);
-    return EXIT_SUCCESS;
+
+    return 0;
 }
