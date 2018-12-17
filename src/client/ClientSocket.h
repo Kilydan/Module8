@@ -11,6 +11,14 @@
 #include <unistd.h>
 #include <string>
 
+enum Command
+{
+    add,
+    rm,
+    get,
+    ls
+};
+
 class ClientSocket
 {
     public:
@@ -19,7 +27,7 @@ class ClientSocket
         static void Connecter(int &socketFd);
         static void Disconnect(int &socketFd);
         static bool TryLogin(int &socketFd);
-        static void Messenger (int &socketFd);
+        static void Messenger (int &socketFd, Command cmd);
 };
 
 #endif

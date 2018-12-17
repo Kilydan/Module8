@@ -15,20 +15,17 @@ static void loginMenu( void )
 
 static void showMenu( void )
 {
-    std::cout << ("\n\nApplication\nPCtoHDDClient\n");
+    std::cout << ("\n\nLogged in\nPCtoHDDClient\n");
     std::cout << ("===============\n");
     std::cout << ("(1) Logout\n");
     std::cout << ("(2) Get list of items\n");
 	std::cout << ("(3) Get item\n");
 	std::cout << ("(4) Remove Item\n");
+	std::cout << ("(5) Add Item\n");
     std::cout << ("-----------------------\n");
-    std::cout << ("(5) Exit\n\n");
+    std::cout << ("(6) Exit\n\n");
     std::cout << ("Choice : ");
 }
-
-
-
-
 
 
 int main(void)
@@ -37,7 +34,7 @@ int main(void)
 	bool login = false;
 	while (!quit)
 	{
-		while (!login)
+		if (!login)
 		{
 			char choice = '\0';
 			loginMenu();
@@ -46,21 +43,22 @@ int main(void)
 
 			switch(choice)
 			{
-				case 1:
-				//login
-                login = ClientSocket::TryLogin(socketFd);
+				case '1':
+					//login
+					login = ClientSocket::TryLogin(socketFd);
+					std::cout << login;
 					break;
-				case 2:
-				//exit
-                quit = true;
+				case '2':
+					//exit
+					quit = true;
 					break;
 				default:
 					std::cout << "\n\nI did not understand your choice (" << choice << ")" << std::endl;
 					break;
 			}
+			
 		}
-
-		while(login)
+		else
 		{
 			char choice = '\0';
 			showMenu();
@@ -71,22 +69,26 @@ int main(void)
 			{
 			case '1' :
 				// Logout
-				ClientSocket::Connecter(socketFd);
+				login = false;
+				//ClientSocket::Disconnect(socketFd);
 				break;
 			case '2' :
 				// get list
-				ClientSocket::Disconnect(socketFd);
+				ClientSocket::Messenger(socketFd, ls);
 				break;
 			case '3' :
 				// get item
-				ClientSocket::Messenger(socketFd);
+				ClientSocket::Messenger(socketFd, get);
 				break;
 			case '4' :
 				// remove item
-				
+				ClientSocket::Messenger(socketFd, rm);				
 				break;
 			case '5':
-				//logout
+				//Add item
+				ClientSocket::Messenger(socketFd, add);
+			case '6':
+				//exit
 				quit = true;
 				login = false;
 				break;

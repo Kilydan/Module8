@@ -45,7 +45,7 @@ void ClientSocket::Disconnect (int &socketFd)
     close(socketFd);
 }
 
-void ClientSocket::Messenger (int &socketFd)
+void ClientSocket::Messenger (int &socketFd, Command cmd)
 {
 
     std::string message;
@@ -89,5 +89,5 @@ void ClientSocket::Messenger (int &socketFd)
 
 bool ClientSocket::TryLogin(int &socketFd)
 {
-    return false;
+    return true;
 }
