@@ -11,31 +11,34 @@
 //bool connected = false;
 int socketFd;
 
+
+static void loginMenu( void )
+{
+    std::cout << ("\n\nLogin\nPCtoHDDClient\n");
+    std::cout << ("===============\n");
+    std::cout << ("(1) Login\n");
+    std::cout << ("(2) Exit\n\n");
+    std::cout << ("Choice : ");
+}
+
 static void showMenu( void )
 {
-    std::cout << ("\n\nMessenger\n");
+    std::cout << ("\n\nApplication\nPCtoHDDClient\n");
     std::cout << ("===============\n");
-    std::cout << ("(1) Connect to server\n");
-    std::cout << ("(2) Disconnect to server\n");
-    std::cout << ("(3) Send message\n");
+    std::cout << ("(2) Logout\n");
+    std::cout << ("(3) Get list of items\n");
+	std::cout << ("(4) Get item\n");
+	std::cout << ("(5) Remove Item\n");
     std::cout << ("-----------------------\n");
-    std::cout << ("(4) Exit\n\n");
+    std::cout << ("(6) Exit\n\n");
     std::cout << ("Choice : ");
 }
 
 static void Connecter ( int &socketFd )
 {
-	/*
-	if(connected)
-	{
-		std::cout << "already connected";
-	}
-	else
-	{
-	*/	
-		socketFd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+	ocketFd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-		if (socketFd == -1)
+	if (socketFd == -1)
 	    {
 	        perror("cannot create socket");
 	        exit(EXIT_FAILURE);
@@ -55,7 +58,6 @@ static void Connecter ( int &socketFd )
 	    else
 	    {
 	        result = connect(socketFd, (struct sockaddr*)&sa, sizeof sa);
-	        //connected = true;
 	        std::cout << result;
 	        if (result < 0)
 	        {
@@ -64,7 +66,6 @@ static void Connecter ( int &socketFd )
 	            exit(EXIT_FAILURE);
 	        }
 	    }
-	//}
 }
 
 static void Disconnect ( int &socketFd )
@@ -76,19 +77,11 @@ static void Disconnect ( int &socketFd )
         exit(EXIT_FAILURE);
     }
     close(socketFd);
-    //connected = false;
 }
 
 static void Messager ( int &socketFd )
 {
-	/*
-	if(!connected)
-	{
-		std::cout << "No connection, going back to the menu!";
-	}
-	else
-	{
-*/
+
 		std::string message;
 		bool exit = false;
 		std::cout << "Welcome to the messager, type exit to leave \n";
