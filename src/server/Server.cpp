@@ -14,8 +14,7 @@ int main(void)
 {
     int listenFd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (listenFd < 0)
-    {
-        perror("cannot create socket");
+    {       
         exit(EXIT_FAILURE);
     }
 
@@ -85,6 +84,7 @@ int main(void)
                     else if(nrBytes == 0)
                     {
                         //close(communicationFd);
+                        //Someadjustement
                     }
                 //}
                 //close(communicationFd);

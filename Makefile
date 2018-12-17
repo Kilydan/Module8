@@ -2,17 +2,17 @@ CXXFLAGS=-Wall -pedantic -ggdb -O0 -std=c++11 -Iproduct
 LDFLAGS=-lgtest -lgmock -lgmock_main -lpthread
 
 #Server application
-SERVERSOURCES=$(wildcard src/server/*.cpp) $(PCServer.cpp)
+SERVERSOURCES=$(wildcard src/server/*.cpp)
 SERVERHEADERS=$(wildcard src/server/*.h)
-SERVEROBJECTS=$(SOURCES:.cpp=.o)
+SERVEROBJECTS=$(SERVERSOURCES:.cpp=.o)
 SERVERTARGET=Server
 
 #Client application
-CLIENTSOURCES=$(wildcard src/client/*.cpp) $(HDDClient.cpp)
+CLIENTSOURCES=$(wildcard src/client/*.cpp)
 CLIENTHEADERS=$(wildcard src/client/*.h)
-CLIENTOBJECTS=$(SOURCES:.cpp=.o)
+CLIENTOBJECTS=$(CLIENTSOURCES:.cpp=.o)
 CLIENTTARGET=Client
-	
+
 TEST=test_$(SERVERTARGET) test_$(CLIENTTARGET)
 
 TEST_SOURCES=$(filter-out src/server/ServerMain.cpp, $(SERVERSOURCES)) \
@@ -20,7 +20,7 @@ TEST_SOURCES=$(filter-out src/server/ServerMain.cpp, $(SERVERSOURCES)) \
 	$(wildcard test/*.cpp)
 
 TEST_HEADERS=$(SERVERHEADERS) $(CLIENTHEADERS) \
-			 $(wildcard test/*.h)
+	$(wildcard test/*.h)
 
 CXX=g++
 
@@ -55,7 +55,7 @@ clean:
 	@rm -f $(CLIENTOBJECTS)
 	@rm -f $(CLIENTTARGET)
 	@rm -f $(TEST)
-	@echo  cleaned
+	@echo cleaned
 
 test: $(TEST)
 	@./$(TEST)
