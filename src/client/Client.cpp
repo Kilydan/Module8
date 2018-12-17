@@ -8,7 +8,7 @@
 #include <string>
 #include <unistd.h>
 
-bool connected = false;
+//bool connected = false;
 int socketFd;
 
 static void showMenu( void )
@@ -32,7 +32,7 @@ static void Connecter ( int &socketFd )
 	}
 	else
 	{
-		*/
+	*/	
 		socketFd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 		if (socketFd == -1)
@@ -55,7 +55,7 @@ static void Connecter ( int &socketFd )
 	    else
 	    {
 	        result = connect(socketFd, (struct sockaddr*)&sa, sizeof sa);
-	        connected = true;
+	        //connected = true;
 	        std::cout << result;
 	        if (result < 0)
 	        {
@@ -76,17 +76,19 @@ static void Disconnect ( int &socketFd )
         exit(EXIT_FAILURE);
     }
     close(socketFd);
-    connected = false;
+    //connected = false;
 }
 
 static void Messager ( int &socketFd )
 {
+	/*
 	if(!connected)
 	{
 		std::cout << "No connection, going back to the menu!";
 	}
 	else
 	{
+*/
 		std::string message;
 		bool exit = false;
 		std::cout << "Welcome to the messager, type exit to leave \n";
@@ -120,8 +122,9 @@ static void Messager ( int &socketFd )
 			        std::cout << "received " << incBytes << " bytes: " << buffer << std::endl;
 				}
 			}
+			Disconnect(socketFd);
 		}
-	}
+	//}
 	
 }
 

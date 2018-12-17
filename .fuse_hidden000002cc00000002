@@ -24,7 +24,7 @@ TEST_HEADERS=$(SERVERHEADERS) $(CLIENTHEADERS) \
 
 CXX=g++
 
-.PHONY: clean
+.PHONY: all clean test
 
 all: $(SERVERTARGET) $(CLIENTTARGET)
 
