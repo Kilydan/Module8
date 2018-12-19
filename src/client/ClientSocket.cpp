@@ -91,7 +91,7 @@ void ClientSocket::Messenger (int &socketFd, Command cmd, std::string userName)
         }
         else
         {
-            message = userName + ", " + ENUM_TO_STR(std) + ", " + message;
+            message = ENUM_TO_STR(std) + ", " + userName + ", " + message;
             size_t nrBytes = send(socketFd, message.c_str(), message.length(), 0);
 
             if (nrBytes != message.length())
