@@ -103,9 +103,9 @@ void ClientSocket::Messenger (int &socketFd, Command cmd, std::string userName)
             char buffer[BufferSize];
 
             int incBytes = read(socketFd, buffer, BufferSize - 1);
-
             if (incBytes >= 0)
             {
+                //handle readed items
                 buffer[incBytes] = '\0';
                 std::cout << "received " << incBytes << " bytes: " << buffer << std::endl;
             }
