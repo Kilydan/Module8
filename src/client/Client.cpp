@@ -53,6 +53,10 @@ int main(void)
 					{
 						std::cout << "Wrong Username";
 					}
+					else
+					{
+						std::cout << "Login succesfull";
+					}
 					break;
 				case '2':
 					//exit
@@ -103,7 +107,5 @@ int main(void)
 			}
 		}
 	}
-
-
     return 0;
 }
