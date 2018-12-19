@@ -1,0 +1,32 @@
+{
+    "home" : 
+    {
+            "Documents" : 
+            {
+                    "test.cpp" :
+                    {
+                        "accesLevel" : "normal",
+                        "value" : "wubler this is some text"
+                    },
+                    "test2.cpp" :
+                    {
+                        "accesLevel" : "normal",
+                        "value" : "this is the wrong format for a cpp file"
+                    }
+            },
+            "Repo" : 
+            {
+                    "name" : 
+                    {
+                        "deeperMap" : 
+                        {
+                            "deepestFile.txt" : 
+                            {
+                                "accesLevel" : "admin",
+                                "value" : "this is some text"
+                            }
+                        }
+                    }
+            }
+    }
+}

@@ -3,6 +3,16 @@
 
 #include <iostream>
 
+enum Command
+{
+    add,
+    cd,
+    rm,
+    get,
+    ls, 
+    login
+};
+
 class ServerSocket
 {
 public:
@@ -13,6 +23,7 @@ public:
     void StartUp();
     void Reading();
     void SendMessage(int nrBytes, int communicationFd);
+
 
 };
 

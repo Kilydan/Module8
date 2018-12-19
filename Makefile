@@ -1,4 +1,4 @@
-CXXFLAGS=-Wall -pedantic -ggdb -O0 -std=c++11 -Iproduct
+CXXFLAGS=-Wall -pedantic -ggdb -O0 -std=c++11 -Iproduct -ljsoncpp
 LDFLAGS=-lgtest -lgmock -lgmock_main -lpthread
 
 #Server application
