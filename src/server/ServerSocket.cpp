@@ -61,11 +61,12 @@ std::vector<std::string> split(std::string str,std::string sep){
 
 std::string ServerSocket::HandleMessage(int nrBytes)
 { 
-    std::vector<std::string> arr;
     buffer[nrBytes] = '\0';
+    std::cout << "message: " << nrBytes << std::endl;
+
+    std::vector<std::string> arr;
     arr=split(buffer," ,");
 
-    
     //check for the commands
     if(!strcmp(arr[0].c_str(), "login"))
     {
@@ -91,9 +92,6 @@ std::string ServerSocket::HandleMessage(int nrBytes)
 
     //std::cout << arr[i] << std::endl;
 
-
-    
-    std::cout << "message: " << buffer << std::endl;
     return "unknown command";
 }
 void ServerSocket::StartUp()
@@ -172,6 +170,7 @@ void ServerSocket::Reading()
                 }
                 //Reading from clients  
                 nrBytes = read(communicationFd, buffer, BufferSize - 1);
+                std::cout << "received " << nrBytes << " bytes: " << buffer << std::endl;
                 //send message back depening on the received message
                 SendMessage(nrBytes, communicationFd);
                 

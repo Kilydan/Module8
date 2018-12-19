@@ -83,19 +83,19 @@ int main(void)
 				break;
 			case '2' :
 				// get list
-				ClientSocket::Messenger(socketFd, ls, UN);
+				ClientSocket::Messenger(socketFd, "ls", UN);
 				break;
 			case '3' :
 				// get item
-				ClientSocket::Messenger(socketFd, get, UN);
+				ClientSocket::Messenger(socketFd, "cd", UN);
 				break;
 			case '4' :
 				// remove item
-				ClientSocket::Messenger(socketFd, rm, UN);				
+				ClientSocket::Messenger(socketFd, "get", UN);				
 				break;
 			case '5':
 				//Add item
-				ClientSocket::Messenger(socketFd, add, UN);
+				ClientSocket::Messenger(socketFd, "set", UN);
 			case '6':
 				//exit
 				quit = true;

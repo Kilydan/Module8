@@ -28,7 +28,7 @@ class ClientSocket
         static void Connecter(int &socketFd);
         static void Disconnect(int &socketFd);
         static bool TryLogin(int &socketFd, std::string userName);
-        static void Messenger (int &socketFd, Command cmd, std::string userName);
+        static void Messenger (int &socketFd, std::string cmd, std::string userName);
 };
 
 #endif
