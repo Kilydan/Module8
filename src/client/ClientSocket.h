@@ -16,7 +16,8 @@ enum Command
     add,
     rm,
     get,
-    ls
+    ls, 
+    login
 };
 
 class ClientSocket

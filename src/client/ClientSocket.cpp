@@ -20,12 +20,13 @@ bool ClientSocket::TryLogin(int &socketFd, std::string userName)
         std::cout << "received " << incBytes << " bytes: " << buffer << std::endl;
     }
 
-    if (!strcmp(buffer, "ACK"))
+    if (strcmp(buffer, "ACK"))
     {
         Disconnect(socketFd);
-        return false;
+        return true;
     }
-    return true;
+    Disconnect(socketFd);
+    return false;
 
 }
 
