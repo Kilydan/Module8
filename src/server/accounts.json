@@ -1,0 +1,10 @@
+{
+    "Rik" : 
+    {
+        "accesLevel" : "normal"
+    },
+    "Tim" : 
+    {
+        "accesLevel" : "admin"
+    }
+}

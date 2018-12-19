@@ -1,0 +1,18 @@
+
+/*
+
+login > ack/type username
+Rik > ack/accesLevel
+
+rik,login, filename
+
+if vector < 2
+{
+    login
+    ls
+}
+
+
+ls > 
+ls , Rik
+*/

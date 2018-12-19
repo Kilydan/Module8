@@ -4,8 +4,12 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <fstream>
 #include <sys/select.h>
 #include <unistd.h>
+#include <vector>
+#include <jsoncpp/json/json.h>
+//#include <json/value.h>
 
 static const int SelectTimeout = 2;
 int listenFd, nrBytes;
@@ -20,17 +24,77 @@ ServerSocket::ServerSocket()
 ServerSocket::~ServerSocket(){
 
 }
+std::string LoginHandler(std::string name)
+{
+    /*
+    std::ifstream ifs("profile.json");
+    Json::Reader reader;
+    Json::Value obj;
+    reader.parse(ifs, obj);     // Reader can also read strings
+    std::cout << "Last name: " << obj["lastname"].asString() << std::endl;
+    std::cout << "First name: " << obj["firstname"].asString() << std::endl;
+    return obj["lastname"].asString();
+    */
+
+    //return accesLevel;
+    if(name == "Tim")
+    {
+        return "admin";
+    }
+    else
+    {
+        return "normal";
+    }
+}
+
+std::vector<std::string> split(std::string str,std::string sep){
+    char* cstr=const_cast<char*>(str.c_str());
+    char* current;
+    std::vector<std::string> arr;
+    current=strtok(cstr,sep.c_str());
+    while(current!=NULL){
+        arr.push_back(current);
+        current=strtok(NULL,sep.c_str());
+    }
+    return arr; 
+}
 
 std::string ServerSocket::HandleMessage(int nrBytes)
 { 
+    std::vector<std::string> arr;
     buffer[nrBytes] = '\0';
-    if(buffer == "ls")
+    arr=split(buffer," ,");
+
+    
+    //check for the commands
+    if(!strcmp(arr[0].c_str(), "login"))
     {
-        std::cout << "message was ls";
-        SendMessage(nrBytes, communicationFd);
+        std::string accesLevel = LoginHandler(arr[1]);
+        return accesLevel;
     }
+    else if(!strcmp(arr[0].c_str(), "ls"))
+    {
+        return "/Documents/ \n text.txt \t index.html";
+    }
+    else if(!strcmp(arr[0].c_str(), "cd"))
+    {
+        return "baseDirectory + /Documents$ ";
+    }
+    else if(!strcmp(arr[0].c_str(), "get"))
+    {
+        return "text.txt";
+    }
+    else if(!strcmp(arr[0].c_str(), "set"))
+    {
+        return "newFile.txt";
+    }
+
+    //std::cout << arr[i] << std::endl;
+
+
+    
     std::cout << "message: " << buffer << std::endl;
-    return std::string(buffer);
+    return "unknown command";
 }
 void ServerSocket::StartUp()
 {
