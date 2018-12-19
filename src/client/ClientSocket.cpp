@@ -1,41 +1,33 @@
 #include "ClientSocket.h"
 
 bool ClientSocket::TryLogin(int &socketFd, std::string userName)
-{
-    bool exit = false;
-    while(!exit)
+{    
+    Connecter(socketFd);
+    size_t nrBytes = send(socketFd, userName.c_str(), userName.length(), 0);
+
+    if (nrBytes != userName.length())
     {
-        Connecter(socketFd);
-        size_t nrBytes = send(socketFd, userName.c_str(), userName.length(), 0);
+        std::cout << "not everything is sent (" << nrBytes << "/" << userName.length() << " bytes sent)\n";
+    }
+    const int BufferSize = 100;
+    char buffer[BufferSize];
+    int incBytes = read(socketFd, buffer, BufferSize - 1);
+    if (incBytes >= 0)
+    {
+        buffer[incBytes] = '\0';
+        std::cout << "received " << incBytes << " bytes: " << buffer << std::endl;
+    }
 
-        if (nrBytes != userName.length())
-        {
-            std::cout << "not everything is sent (" << nrBytes << "/" << userName.length() << " bytes sent)\n";
-        }
-        const int BufferSize = 100;
-        char buffer[BufferSize];
-        int incBytes = read(socketFd, buffer, BufferSize - 1);
-        if (incBytes >= 0)
-        {
-            buffer[incBytes] = '\0';
-            std::cout << "received " << incBytes << " bytes: " << buffer << std::endl;
-        }
+    if (!strcmp(buffer, "ACK"))
+    {
+        Disconnect(socketFd);
+        return false;
+    }
+    return true;
 
-        if (!strcmp(buffer, "ACK"))
-        {
-            Disconnect(socketFd);
-            return false;
-        }
-        else
-        {
-            Disconnect(socketFd);
-            return true;
-        }
-
-    }  
 }
 
-void ClientSocket::Connecter ( int &socketFd )
+void ClientSocket::Connecter (int &socketFd)
 {
     socketFd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -88,7 +80,6 @@ void ClientSocket::Messenger (int &socketFd, Command cmd, std::string userName)
     std::cout << "Welcome to the messenger, type exit to leave \n";
     while(!exit)
     {
-        std::cout << "Message: ";
         std::getline(std::cin, message);
         std::cout << "your message was: " << message << std::endl;
         Connecter(socketFd); 
@@ -98,6 +89,8 @@ void ClientSocket::Messenger (int &socketFd, Command cmd, std::string userName)
         }
         else
         {
+            std::string temp = Command(cmd);
+            message = userName + ", " + temp + ", " + message;
             size_t nrBytes = send(socketFd, message.c_str(), message.length(), 0);
 
             if (nrBytes != message.length())
