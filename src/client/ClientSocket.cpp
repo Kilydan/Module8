@@ -5,7 +5,8 @@
 bool ClientSocket::TryLogin(int &socketFd, std::string userName)
 {    
     Connecter(socketFd);
-    size_t nrBytes = send(socketFd, userName.c_str(), userName.length(), 0);
+    std::string msg = "login, " + userName;
+    size_t nrBytes = send(socketFd, msg, userName.length(), 0);
 
     if (nrBytes != userName.length())
     {
