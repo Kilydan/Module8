@@ -80,16 +80,20 @@ void ClientSocket::Messenger (int &socketFd, Command cmd, std::string userName)
     
     std::string message;
     bool exit = false;
-    std::cout << "Welcome to the messenger, type exit to leave \n";
+    std::cout << "HDD DISK\n";
     while(!exit)
     {
-        std::getline(std::cin, message);
-        std::cout << "your message was: " << message << std::endl;
-        Connecter(socketFd); 
-        if(message == "exit")
+        if (cmd == add || cmd == rm || cmd == get)
         {
-            exit = true;
+            std::getline(std::cin, message);
+            std::cout << "your  was: " << message << std::endl;
+            Connecter(socketFd); 
+            if(message == "exit")
+            {
+                exit = true;
+            }
         }
+       
         else
         {
             message = ENUM_TO_STR(std) + ", " + userName + ", " + message;
