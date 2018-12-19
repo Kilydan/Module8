@@ -1,5 +1,7 @@
 #include "ClientSocket.h"
 
+#define ENUM_TO_STR(ENUM) std::string(#ENUM)
+
 bool ClientSocket::TryLogin(int &socketFd, std::string userName)
 {    
     Connecter(socketFd);
@@ -89,8 +91,7 @@ void ClientSocket::Messenger (int &socketFd, Command cmd, std::string userName)
         }
         else
         {
-            std::string temp = Command(cmd);
-            message = userName + ", " + temp + ", " + message;
+            message = userName + ", " + ENUM_TO_STR(std) + ", " + message;
             size_t nrBytes = send(socketFd, message.c_str(), message.length(), 0);
 
             if (nrBytes != message.length())
